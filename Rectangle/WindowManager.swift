@@ -16,6 +16,7 @@ class WindowManager {
     private let windowCalculationFactory: WindowCalculationFactory
     private let windowHistory: WindowHistory
     private let gapSize = Defaults.gapSize.value
+    private let windowMarginTop = Defaults.windowMarginTop.value
     
     init(windowCalculationFactory: WindowCalculationFactory, windowHistory: WindowHistory) {
         self.windowCalculationFactory = windowCalculationFactory
@@ -94,9 +95,19 @@ class WindowManager {
             return
         }
         
+        let gapSharedEdges = calcResult.resultingSubAction?.gapSharedEdge ?? calcResult.resultingAction.gapSharedEdge
+        
+        if windowMarginTop > 0, !gapSharedEdges.contains(.top) {
+            let cgWindowMarginTop = CGFloat(windowMarginTop)
+            calcResult.rect = CGRect(
+                x: calcResult.rect.origin.x,
+                y: calcResult.rect.origin.y,
+                width: calcResult.rect.width,
+                height: calcResult.rect.height - cgWindowMarginTop
+            )
+        }
+        
         if gapSize > 0, calcResult.resultingAction.gapsApplicable {
-            let gapSharedEdges = calcResult.resultingSubAction?.gapSharedEdge ?? calcResult.resultingAction.gapSharedEdge
-            
             calcResult.rect = GapCalculation.applyGaps(calcResult.rect, sharedEdges: gapSharedEdges, gapSize: gapSize)
         }
 
