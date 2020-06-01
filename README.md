@@ -84,6 +84,13 @@ defaults write com.knollsoft.Rectangle almostMaximizeWidth -float <VALUE_BETWEEN
 ```bash
 defaults write com.knollsoft.Rectangle gapSize -float <NUM_PIXELS>
 ```
+
+### Adding Margin to Top of Window
+
+```bash
+defaults write com.knollsoft.Rectangle windowMarginTop -float <NUM_PIXELS>
+```
+
 ### Move Up/Down/Left/Right: Don't center on edge
 
 By default, the directional move will center the window along the edge that the window is being moved to. 
